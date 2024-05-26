@@ -5,19 +5,16 @@ using UnityEngine;
 public class BodyPartBehavior : EntityBase, IDangerousEncounter
 {
     [SerializeField] private float _intangibleTime;
-    public void OnSpawnBodyPart()
+    public override void OnEntitySpawn(GameSpaceType spaceSpawn)
     {
+        _spaceSpawned = spaceSpawn;
+        GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
         StartCoroutine(SpawningRoutine());
     }
 
     public void DangerousInteractionCallback(ICharacter playerTouched)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void DangerousInteractionCallback()
-    {
-        GameManager.OnGameOver?.Invoke();
+       playerTouched.ReceiveDamage();
     }
 
     private IEnumerator SpawningRoutine()
@@ -29,5 +26,5 @@ public class BodyPartBehavior : EntityBase, IDangerousEncounter
         col.enabled = true;
     }
 
-    
+
 }

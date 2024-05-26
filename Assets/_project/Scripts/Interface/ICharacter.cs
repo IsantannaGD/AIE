@@ -6,6 +6,6 @@ public interface ICharacter
 {
     public void BodyGrow();
     public void ReceiveDamage();
-    public void PickPowerUp();
+    public void PickPowerUp(EntityType type);
 
 }

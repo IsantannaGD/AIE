@@ -9,7 +9,6 @@ public class EnemyController : EntityBase, ICharacter
     private Vector2 _direction = Vector2.up;
 
     [SerializeField] private Vector2 _snakeIndex;
-    [SerializeField] private GameSpaceType _placedSpace;
 
     [SerializeField] private Vector2 _targetPosition;
     [SerializeField] private BodyPartBehavior _bodyPrefab;
@@ -26,11 +25,12 @@ public class EnemyController : EntityBase, ICharacter
     [SerializeField] private bool _redefiningRotation;
     [SerializeField] private bool _rightPathBlocked, _leftPathBlocked, _upperPathBlocked, _bottomPathBlocked = false;
 
-    public void OnSpawnEnemy(GameSpaceType spacePlaced, Vector2 initialTarget)
+    public override void OnEntitySpawn(GameSpaceType spaceSpawn)
     {
-        _placedSpace = spacePlaced;
-        _targetPosition = initialTarget;
+        _spaceSpawned = spaceSpawn;
+        GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
     }
+
     public void SetTargetPosition(Vector2 target)
     {
         _targetPosition = target;
@@ -43,18 +43,19 @@ public class EnemyController : EntityBase, ICharacter
         { pos = _fullBody[^1].transform.position; }
 
         BodyPartBehavior bodyPart = Instantiate(_bodyPrefab, pos, Quaternion.identity);
-        bodyPart.OnSpawnBodyPart();
+        bodyPart.OnEntitySpawn(_spaceSpawned);
         _fullBody.Add(bodyPart);
     }
 
     public void ReceiveDamage()
     {
-        throw new System.NotImplementedException();
+        GameManager.Instance.OnEnemyDie?.Invoke(_spaceSpawned);
+        EnemyDead();
     }
 
-    public void PickPowerUp()
+    public void PickPowerUp(EntityType type)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     private void Update()
@@ -74,6 +75,16 @@ public class EnemyController : EntityBase, ICharacter
         {
             enemyTouch.DangerousInteractionCallback(this);
         }
+    }
+
+    private void EnemyDead()
+    {
+        foreach (BodyPartBehavior partBehavior in _fullBody)
+        {
+            Destroy(partBehavior.gameObject);
+        }
+
+        Destroy(gameObject);
     }
 
     private void SelectRotation(DirectionType directionTarget)
@@ -216,6 +227,9 @@ public class EnemyController : EntityBase, ICharacter
 
                     _redefiningRotation = true;
 
+                    if(AllPathsBlocked())
+                    {break;}
+
                     SelectRotation(_directionIndex);
                 }
             }
@@ -289,6 +303,14 @@ public class EnemyController : EntityBase, ICharacter
         return true;
     }
 
+    private bool AllPathsBlocked()
+    {
+        if (!_rightPathBlocked || !_leftPathBlocked || !_upperPathBlocked || !_bottomPathBlocked)
+        { return false; }
+
+        return true;
+    }
+
     private void PathRedefined()
     {
         _upperPathBlocked = false;
@@ -296,5 +318,23 @@ public class EnemyController : EntityBase, ICharacter
         _bottomPathBlocked = false;
         _leftPathBlocked = false;
         _redefiningRotation = false;
+
+        switch (_directionIndex)
+        {
+            case DirectionType.Up:
+                _bottomPathBlocked = true;
+                break;
+            case DirectionType.Right:
+                _leftPathBlocked = true;
+                break;
+            case DirectionType.Down:
+                _upperPathBlocked = true;
+                break;
+            case DirectionType.Left:
+                _rightPathBlocked = true;
+                break;
+        }
     }
+
+    
 }

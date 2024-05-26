@@ -8,9 +8,10 @@ public class FoodBehavior : EntityBase, IInteractableObject
     [SerializeField] private ICharacter _currentPlayer;
     [SerializeField] private GameSpaceType _placeSpawned;
 
-    public void OnSpawn(GameSpaceType placeSpawned)
+    public override void OnEntitySpawn(GameSpaceType spaceSpawn)
     {
-        _placeSpawned = placeSpawned;
+        _placeSpawned = spaceSpawn;
+        GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
     }
 
     public void InteractionCallback(ICharacter playerTouched)
@@ -21,8 +22,9 @@ public class FoodBehavior : EntityBase, IInteractableObject
 
     private void EatFood()
     {
-        GameManager.OnFoodEaten?.Invoke(_placeSpawned);
+        GameManager.Instance.OnFoodEaten?.Invoke(_placeSpawned);
         _currentPlayer.BodyGrow();
         Destroy(this.gameObject);
     }
+
 }

@@ -6,11 +6,14 @@ using UnityEngine;
 [Serializable]
 public abstract class EntityBase : MonoBehaviour
 {
+    [SerializeField] protected GameSpaceType _spaceSpawned;
     [SerializeField] protected EntityType _entityType;
     [SerializeField] protected Vector2 _savedLocation;
 
     public EntityType EntityType => _entityType;
     public Vector2 CurrentLocation => transform.position;
+
+    public abstract void OnEntitySpawn(GameSpaceType spaceSpawn);
 
     protected void Start()
     {
@@ -19,32 +22,28 @@ public abstract class EntityBase : MonoBehaviour
     }
 
     protected virtual void Initializations()
-    {
+    { }
 
-    }
-
-    protected virtual void OnSaveStateCallback()
+    protected virtual void OnSaveStateCallback(GameSpaceType spaceTarget)
     {
+        if (spaceTarget != _spaceSpawned)
+        { return;}
+
         _savedLocation = transform.position;
     }
 
     private void BaseInitializations()
     {
-        GameManager.OnSaveState += OnSaveStateCallback;
-    }
-
-    private void OnEnable()
-    {
-        GameManager.OnRegisterEntity?.Invoke(this);
+        GameManager.Instance.OnSaveState += OnSaveStateCallback;
     }
 
     private void OnDisable()
     {
-        GameManager.OnRemoveEntity?.Invoke(this);
+        GameManager.OnRemoveEntity?.Invoke(this, _spaceSpawned);
     }
 
     private void OnDestroy()
     {
-        GameManager.OnSaveState -= OnSaveStateCallback;
+        GameManager.Instance.OnSaveState -= OnSaveStateCallback;
     }
 }

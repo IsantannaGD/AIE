@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c880009a-983d-4fab-816e-1e0091aafb90" name="Changes" comment="" />
+    <list default="true" id="c880009a-983d-4fab-816e-1e0091aafb90" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Personal - AIE/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Personal - AIE/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scenes/Game.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GamePlaceController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GamePlaceController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Gameplace Dependency/FoodBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Gameplace Dependency/FoodBehavior.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Interface/ICharacter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Interface/ICharacter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/BodyPartBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/BodyPartBehavior.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/PlayerUIView.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/PlayerUIView.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/BatteringRamPowerUp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/BatteringRamPowerUp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/EnginePowerPowerUp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/EnginePowerPowerUp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/EntityBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/EntityBase.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,6 +40,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Interface/ICharacter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Interface/IInteractableObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/EnginePowerPowerUp.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/TimeTravelPowerUp.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Utilities/WallAssemblyFunc.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="2gnPPuq6TztlaHJazfQLFSK6rnD" />
@@ -106,7 +122,9 @@
       <workItem from="1716674444288" duration="6817000" />
       <workItem from="1716683647985" duration="170000" />
       <workItem from="1716683914598" duration="9568000" />
-      <workItem from="1716695140550" duration="3131000" />
+      <workItem from="1716695140550" duration="3812000" />
+      <workItem from="1716744181652" duration="797000" />
+      <workItem from="1716745546129" duration="13202000" />
     </task>
     <servers />
   </component>
@@ -117,63 +135,5 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs</url>
-          <line>191</line>
-          <properties documentPath="D:\00 - Projetos Unity\Personal - AIE\Assets\_project\Scripts\Enemy Dependency\EnemyController.cs" initialLine="153" containingFunctionPresentation="Method 'Move'">
-            <startOffsets>
-              <option value="5802" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5880" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs</url>
-          <line>289</line>
-          <properties documentPath="D:\00 - Projetos Unity\Personal - AIE\Assets\_project\Scripts\Enemy Dependency\EnemyController.cs" initialLine="232" containingFunctionPresentation="Method 'MovePossibility'">
-            <startOffsets>
-              <option value="9127" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9140" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs</url>
-          <line>292</line>
-          <properties documentPath="D:\00 - Projetos Unity\Personal - AIE\Assets\_project\Scripts\Enemy Dependency\EnemyController.cs" initialLine="235" containingFunctionPresentation="Method 'MovePossibility'">
-            <startOffsets>
-              <option value="9162" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9174" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs</url>
-          <line>218</line>
-          <properties documentPath="D:\00 - Projetos Unity\Personal - AIE\Assets\_project\Scripts\Enemy Dependency\EnemyController.cs" initialLine="182" containingFunctionPresentation="Method 'Move'">
-            <startOffsets>
-              <option value="6880" />
-            </startOffsets>
-            <endOffsets>
-              <option value="6880" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

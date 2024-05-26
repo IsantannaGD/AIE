@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,11 +11,9 @@ public class GamePlaceController : MonoBehaviour
     [SerializeField] private EnemyController _enemyPrefab;
     [SerializeField] private FoodBehavior _foodPrefab;
 
-    [SerializeField] private WallAssemblyFunc _topWall;
-    [SerializeField] private WallAssemblyFunc _rightWall;
-    [SerializeField] private WallAssemblyFunc _botWall;
-    [SerializeField] private WallAssemblyFunc _leftWall;
-    [SerializeField] private WallAssemblyFunc _divisorAll;
+    [SerializeField] private List<EntityBase> _allTypesPowerUp = new List<EntityBase>();
+
+    [SerializeField] private WallAssemblyFunc _divisorWall;
 
     [SerializeField] private FoodBehavior _foodOne;
     [SerializeField] private FoodBehavior _foodTwo;
@@ -23,47 +22,68 @@ public class GamePlaceController : MonoBehaviour
     [SerializeField] private EnemyController _enemyTwoController;
 
     [SerializeField] private float _cellSize = 0.3f;
+    [SerializeField] private float _powerUpRespawnCooldown = 60f;
+    [SerializeField] private WaitForSeconds _powerUpWaitFor;
 
     private void Start()
     {
-        GameManager.OnFoodEaten += SpawnFood;
+        GameManager.Instance.OnFoodEaten += SpawnFood;
+        GameManager.Instance.OnEnemyDie += SpawnEnemy;
+        GameManager.OnGameStart += GameStartCallback;
 
         GameStartCallback();
     }
 
     private void GameStartCallback()
     {
-        GameSpaceType whereSpawn = GameSpaceType.SinglePlayerSpace;
+        switch (GameManager.Instance.CurrentGameMode)
+        {
+            case GameMode.SinglePlayer:
+                SpawnPlayer(GameSpaceType.SinglePlayerSpace);
 
-        SpawnPlayer(GameSpaceType.SinglePlayerSpace);
+                FoodBehavior foodSingle = Instantiate(_foodPrefab, GetRandomPosition(GameSpaceType.SinglePlayerSpace), Quaternion.identity);
+                foodSingle.OnEntitySpawn(GameSpaceType.SinglePlayerSpace);
+                _foodOne = foodSingle;
 
-        FoodBehavior food = Instantiate(_foodPrefab, GetRandomPosition(whereSpawn), Quaternion.identity);
-        food.OnSpawn(whereSpawn);
+                SpawnEnemy(GameSpaceType.SinglePlayerSpace);
+                break;
+            case GameMode.LocalMultiPlayer:
 
-        if (whereSpawn == GameSpaceType.PlayerTwoSpace)
-        { _foodTwo = food; }
-        else
-        { _foodOne = food; }
+                _divisorWall.gameObject.SetActive(true);
 
-        EnemyController enemy = Instantiate(_enemyPrefab, GetRandomPosition(whereSpawn), Quaternion.identity);
-        enemy.OnSpawnEnemy(whereSpawn, food.CurrentLocation);
+                SpawnPlayer(GameSpaceType.PlayerOneSpace);
 
-        if (whereSpawn == GameSpaceType.PlayerTwoSpace)
-        { _enemyTwoController = enemy;}
-        else
-        { _enemyOneController = enemy; }
+                FoodBehavior foodOne = Instantiate(_foodPrefab, GetRandomPosition(GameSpaceType.PlayerOneSpace), Quaternion.identity);
+                foodOne.OnEntitySpawn(GameSpaceType.PlayerOneSpace);
+                _foodOne = foodOne;
+
+                SpawnEnemy(GameSpaceType.PlayerOneSpace);
+
+                SpawnPlayer(GameSpaceType.PlayerTwoSpace);
+
+                FoodBehavior foodTwo = Instantiate(_foodPrefab, GetRandomPosition(GameSpaceType.PlayerTwoSpace), Quaternion.identity);
+                foodTwo.OnEntitySpawn(GameSpaceType.PlayerTwoSpace);
+                _foodTwo = foodTwo;
+
+                SpawnEnemy(GameSpaceType.PlayerTwoSpace);
+                break;
+        }
+
+        StartCoroutine(PowerUpRespawnRoutine());
     }
 
     private void SpawnPlayer(GameSpaceType whereSpawn)
     {
         Player player = Instantiate(_playerPrefab, GetRandomPosition(whereSpawn), Quaternion.identity);
+        player.OnEntitySpawn(whereSpawn);
     }
 
     private void SpawnEnemy(GameSpaceType whereSpawn)
     {
         FoodBehavior food = whereSpawn == GameSpaceType.PlayerTwoSpace ? _foodTwo : _foodOne;
         EnemyController enemy = Instantiate(_enemyPrefab, GetRandomPosition(whereSpawn), Quaternion.identity);
-        enemy.OnSpawnEnemy(whereSpawn, food.CurrentLocation);
+        enemy.OnEntitySpawn(whereSpawn);
+        enemy.SetTargetPosition(food.CurrentLocation);
 
         if (whereSpawn == GameSpaceType.PlayerTwoSpace)
         { _enemyTwoController = enemy;}
@@ -74,7 +94,7 @@ public class GamePlaceController : MonoBehaviour
     private void SpawnFood(GameSpaceType localSpace)
     {
         FoodBehavior food = Instantiate(_foodPrefab, GetRandomPosition(localSpace), Quaternion.identity);
-        food.OnSpawn(localSpace);
+        food.OnEntitySpawn(localSpace);
 
         if (localSpace == GameSpaceType.PlayerTwoSpace)
         { _foodTwo = food; }
@@ -83,6 +103,41 @@ public class GamePlaceController : MonoBehaviour
 
         EnemyController enemy = localSpace == GameSpaceType.PlayerTwoSpace ? _enemyTwoController : _enemyOneController;
         enemy.SetTargetPosition(food.CurrentLocation);
+    }
+
+    private IEnumerator PowerUpRespawnRoutine()
+    {
+        _powerUpWaitFor = new WaitForSeconds(_powerUpRespawnCooldown);
+
+        while (!GameManager.Instance.GameOver)
+        {
+            yield return _powerUpWaitFor;
+
+            if (!GameManager.Instance.GamePaused)
+            {
+                int random = 0;
+
+                switch (GameManager.Instance.CurrentGameMode)
+                {
+                    case GameMode.SinglePlayer:
+                        random = Random.Range(0, _allTypesPowerUp.Count);
+                        var power = Instantiate(_allTypesPowerUp[random], GetRandomPosition(GameSpaceType.SinglePlayerSpace), quaternion.identity) ;
+                        power.OnEntitySpawn(GameSpaceType.SinglePlayerSpace);
+                        break;
+                    case GameMode.LocalMultiPlayer:
+                        random = Random.Range(0, _allTypesPowerUp.Count);
+                        var power1 = Instantiate(_allTypesPowerUp[random], GetRandomPosition(GameSpaceType.PlayerOneSpace), quaternion.identity) ;
+                        power1.OnEntitySpawn(GameSpaceType.PlayerOneSpace);
+
+                        random = Random.Range(0, _allTypesPowerUp.Count);
+                        var power2 = Instantiate(_allTypesPowerUp[random], GetRandomPosition(GameSpaceType.PlayerTwoSpace), quaternion.identity) ;
+                        power2.OnEntitySpawn(GameSpaceType.PlayerTwoSpace);
+                        break;
+                }
+            }
+        }
+
+        yield return new WaitForEndOfFrame();
     }
 
     private Vector2 GetRandomPosition(GameSpaceType whereSpawn)
@@ -104,7 +159,7 @@ public class GamePlaceController : MonoBehaviour
                 break;
             case GameSpaceType.PlayerTwoSpace:
                 minRange = 1;
-                maxRange = 30;
+                maxRange = 31;
 
                 break;
         }
@@ -114,7 +169,7 @@ public class GamePlaceController : MonoBehaviour
 
         Vector2 randomPos = new Vector2(x, y);
 
-        while (!GameManager.Instance.CheckPositionViability(randomPos))
+        while (!GameManager.Instance.CheckPositionViability(randomPos, whereSpawn))
         {
             x = Random.Range(minRange, maxRange) * _cellSize;
             y = Random.Range(-11, 11) * _cellSize;
@@ -127,6 +182,8 @@ public class GamePlaceController : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.OnFoodEaten -= SpawnFood;
+        GameManager.Instance.OnFoodEaten -= SpawnFood;
+        GameManager.Instance.OnEnemyDie -= SpawnEnemy;
+        GameManager.OnGameStart -= GameStartCallback;
     }
 }

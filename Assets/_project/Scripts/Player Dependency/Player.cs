@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -24,6 +25,15 @@ public class Player : EntityBase, ICharacter
     [SerializeField] private KeyCode _leftKey = KeyCode.A;
     [SerializeField] private KeyCode _rightKey = KeyCode.D;
 
+    [SerializeField] private bool _haveBatteringRam = false;
+    [SerializeField] private bool _haveTimeTravel = false;
+
+    public override void OnEntitySpawn(GameSpaceType spaceSpawn)
+    {
+        _spaceSpawned = spaceSpawn;
+        GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
+    }
+
     public void BodyGrow()
     {
         Vector2 pos = transform.position;
@@ -31,18 +41,32 @@ public class Player : EntityBase, ICharacter
         { pos = _playerBody[^1].transform.position; }
 
         BodyPartBehavior bodyPart = Instantiate(_bodyPrefab, pos, Quaternion.identity);
-        bodyPart.OnSpawnBodyPart();
+        bodyPart.OnEntitySpawn(_spaceSpawned);
         _playerBody.Add(bodyPart);
     }
 
     public void ReceiveDamage()
     {
-        throw new System.NotImplementedException();
+        if (!_haveTimeTravel)
+        {
+            GameManager.Instance.OnGameOver?.Invoke(_spaceSpawned);
+        }
     }
 
-    public void PickPowerUp()
+    public void PickPowerUp(EntityType type)
     {
-        throw new System.NotImplementedException();
+        switch (type)
+        {
+            case EntityType.EnginePowerPowerUp:
+                PickUpEnginePowerCallback();
+                break;
+            case EntityType.BatteryRamPowerUp:
+                PickUpBatteringRamCallback();
+                break;
+            case EntityType.TimeTravelPowerUp:
+                PickUpTimeTravelCallback();
+                break;
+        }
     }
 
     private void Update()
@@ -63,6 +87,23 @@ public class Player : EntityBase, ICharacter
         {
             enemyTouch.DangerousInteractionCallback(this);
         }
+    }
+
+    private void PickUpEnginePowerCallback()
+    {
+        float s = _playerBody.Count * (_cargoLoadMultiplier * 1.5f);
+
+        _speed = 0.5 > s ? _speed + 0.5f : _speed + s;
+    }
+
+    private void PickUpBatteringRamCallback()
+    {
+
+    }
+
+    private void PickUpTimeTravelCallback()
+    {
+
     }
 
     private void ChangeDirection()
