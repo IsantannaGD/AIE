@@ -78,6 +78,17 @@ public class EnemyController : EntityBase, ICharacter
         }
     }
 
+    protected override void OnSaveStateCallback()
+    {
+        TimeTravelBeacon beacon = new TimeTravelBeacon();
+        beacon.Position = transform.position;
+        beacon.Type = _entityType;
+        beacon.SetID = _gameSetID;
+        beacon.BodyPartType = BodyPartType.Regular;
+
+        GameManager.OnAddBeaconInRecorder?.Invoke(beacon);
+    }
+
     private void Update()
     {
         Move();

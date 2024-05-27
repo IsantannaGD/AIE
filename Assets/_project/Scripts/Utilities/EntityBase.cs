@@ -7,8 +7,6 @@ using UnityEngine;
 public abstract class EntityBase : MonoBehaviour
 {
     [SerializeField] protected EntityType _entityType;
-    [SerializeField] protected Vector2 _savedLocation;
-
     [SerializeField] protected int _gameSetID;
 
     public int GameSetID => _gameSetID;
@@ -28,12 +26,17 @@ public abstract class EntityBase : MonoBehaviour
 
     protected virtual void OnSaveStateCallback()
     {
-        _savedLocation = transform.position;
+        TimeTravelBeacon beacon = new TimeTravelBeacon();
+        beacon.Position = transform.position;
+        beacon.Type = _entityType;
+        beacon.SetID = _gameSetID;
+
+        GameManager.OnAddBeaconInRecorder?.Invoke(beacon);
     }
 
     private void BaseInitializations()
     {
-        GameManager.OnTimeTravelPick += OnSaveStateCallback;
+        GameManager.OnCreateBeaconsRequest += OnSaveStateCallback;
     }
 
     private void OnDisable()
@@ -43,6 +46,6 @@ public abstract class EntityBase : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.OnTimeTravelPick -= OnSaveStateCallback;
+        GameManager.OnCreateBeaconsRequest -= OnSaveStateCallback;
     }
 }

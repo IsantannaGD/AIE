@@ -12,8 +12,10 @@ public class GameManager : MonoBehaviour
     public static Action<EntityBase> OnRemoveEntity;
     public static Action<Vector2> OnRegisterLimits;
     public static Action<BodyPartType[], int> OnInitialSetupSelected;
+    public static Action<TimeTravelBeacon> OnAddBeaconInRecorder;
     public static Action OnResetPlayerList;
     public static Action OnGameStart;
+    public static Action OnCreateBeaconsRequest;
     public static Action OnTimeTravelUse;
     public static Action OnTimeTravelPick;
     public static Action OnGamePause;
@@ -27,6 +29,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private List<EntityBase> _allEntitiesInGame = new List<EntityBase>();
     [SerializeField] private List<Vector2> _allWallPositions = new List<Vector2>();
+
+    [SerializeField] private List<TimeTravelBeacon> _registeredTimeBeacons = new List<TimeTravelBeacon>();
 
     [SerializeField] private bool _gameOver;
     [SerializeField] private bool _gamePaused;
@@ -69,6 +73,8 @@ public class GameManager : MonoBehaviour
         OnGamePause += GamePauseCallback;
         OnRegisterEntity += RegisterEntityCallback;
         OnRemoveEntity += RemoveEntityFromListCallback;
+        OnTimeTravelPick += TimeTravelPowerUpPickedCallback;
+        OnAddBeaconInRecorder += CreateTimeTravelBeaconCallback;
         OnRegisterLimits += RegisterWall;
 
         SceneManager.LoadScene("MainMenu");
@@ -88,6 +94,17 @@ public class GameManager : MonoBehaviour
     private void GamePauseCallback()
     {
         _gamePaused = !_gamePaused;
+    }
+
+    private void TimeTravelPowerUpPickedCallback()
+    {
+        _registeredTimeBeacons = new List<TimeTravelBeacon>();
+        OnCreateBeaconsRequest?.Invoke();
+    }
+
+    private void CreateTimeTravelBeaconCallback(TimeTravelBeacon beacon)
+    {
+        _registeredTimeBeacons.Add(beacon);
     }
 
     private void RegisterEntityCallback(EntityBase entity)

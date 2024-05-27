@@ -52,6 +52,17 @@ public class BodyPartBehavior : EntityBase, IDangerousEncounter
         StartCoroutine(MakeIntangible());
     }
 
+    protected override void OnSaveStateCallback()
+    {
+        TimeTravelBeacon beacon = new TimeTravelBeacon();
+        beacon.Position = transform.position;
+        beacon.Type = _entityType;
+        beacon.SetID = _gameSetID;
+        beacon.BodyPartType = BodyPartType.Regular;
+
+        GameManager.OnAddBeaconInRecorder?.Invoke(beacon);
+    }
+
     private IEnumerator MakeIntangible()
     {
         Collider2D col = GetComponent<Collider2D>();

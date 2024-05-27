@@ -108,6 +108,26 @@ public class Player : EntityBase, ICharacter
         }
     }
 
+    public void ReCreateByTimeTravelPowerUp(TimeTravelBeacon[] parts)
+    {
+        foreach (TimeTravelBeacon beacon in parts)
+        {
+            
+        }
+
+    }
+
+    protected override void OnSaveStateCallback()
+    {
+        TimeTravelBeacon beacon = new TimeTravelBeacon();
+        beacon.Position = transform.position;
+        beacon.Type = _entityType;
+        beacon.SetID = _gameSetID;
+        beacon.BodyPartType = BodyPartType.Regular;
+
+        GameManager.OnAddBeaconInRecorder?.Invoke(beacon);
+    }
+
     private void Update()
     {
         Move();

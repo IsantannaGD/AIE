@@ -15,4 +15,7 @@ public class TimeTravelPowerUp : EntityBase, IInteractableObject
         playerTouched.PickPowerUp(_entityType);
         Destroy(this.gameObject);
     }
+
+    protected override void OnSaveStateCallback()
+    { }
 }

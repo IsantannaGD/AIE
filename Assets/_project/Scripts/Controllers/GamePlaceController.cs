@@ -71,7 +71,7 @@ public class GamePlaceController : MonoBehaviour
             SpawnEnemy(newSet.GameSetID);
         }
 
-        StartCoroutine(PowerUpRespawnRoutine());
+        //StartCoroutine(PowerUpRespawnRoutine());
     }
 
     private void SpawnPlayer(int setId, bool initialSpawn = false)
