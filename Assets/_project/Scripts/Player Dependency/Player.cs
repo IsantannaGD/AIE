@@ -30,10 +30,10 @@ public class Player : EntityBase, ICharacter
 
     [SerializeField] private int _batteringRamCount = 0;
 
-    public override void OnEntitySpawn(GameSpaceType spaceSpawn)
+    public override void OnEntitySpawn(int gameSet)
     {
-        _spaceSpawned = spaceSpawn;
-        GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
+        _gameSetID = gameSet;
+        GameManager.OnRegisterEntity?.Invoke(this);
 
         _bodyPartTypeList.Add(BodyPartType.Regular);
     }
@@ -45,7 +45,7 @@ public class Player : EntityBase, ICharacter
         { pos = _playerBody[^1].transform.position; }
 
         BodyPartBehavior bodyPart = Instantiate(_bodyPrefab, pos, Quaternion.identity);
-        bodyPart.OnEntitySpawn(_spaceSpawned);
+        bodyPart.OnEntitySpawn(_gameSetID);
         _playerBody.Add(bodyPart);
         _bodyPartTypeList.Insert(0, type);
 
@@ -56,12 +56,12 @@ public class Player : EntityBase, ICharacter
     {
         if (!_haveTimeTravel)
         {
-            GameManager.Instance.OnGameOver?.Invoke(_spaceSpawned);
+            GameManager.Instance.OnGameOver?.Invoke(_gameSetID);
             Debug.LogWarning("Morreu Otário");
             return;
         }
 
-        GameManager.Instance.OnTimeTravelUse?.Invoke(_spaceSpawned);
+        GameManager.OnTimeTravelUse?.Invoke();
         _haveTimeTravel = false;
     }
 
@@ -124,7 +124,7 @@ public class Player : EntityBase, ICharacter
 
     private void PickUpTimeTravelCallback()
     {
-        GameManager.Instance.OnTimeTravelPick?.Invoke(_spaceSpawned);
+        GameManager.OnTimeTravelPick?.Invoke();
         _haveTimeTravel = true;
     }
 

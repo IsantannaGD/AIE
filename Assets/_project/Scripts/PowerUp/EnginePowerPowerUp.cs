@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class EnginePowerPowerUp : EntityBase, IInteractableObject
 {
-    public override void OnEntitySpawn(GameSpaceType spaceSpawn)
+    public override void OnEntitySpawn(int gameSet)
     {
-        _spaceSpawned = spaceSpawn;
-        GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
+        _gameSetID = gameSet;
+        GameManager.OnRegisterEntity?.Invoke(this);
     }
 
     public void InteractionCallback(ICharacter playerTouched)
     {
-        GameManager.Instance.OnFoodEaten?.Invoke(_spaceSpawned);
+        GameManager.Instance.OnFoodEaten?.Invoke(_gameSetID);
         playerTouched.PickPowerUp(_entityType);
         Destroy(this.gameObject);
     }

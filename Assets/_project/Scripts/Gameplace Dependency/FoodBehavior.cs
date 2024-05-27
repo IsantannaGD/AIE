@@ -6,12 +6,11 @@ using UnityEngine;
 public class FoodBehavior : EntityBase, IInteractableObject
 {
     [SerializeField] private ICharacter _currentPlayer;
-    [SerializeField] private GameSpaceType _placeSpawned;
 
-    public override void OnEntitySpawn(GameSpaceType spaceSpawn)
+    public override void OnEntitySpawn(int gameSet)
     {
-        _placeSpawned = spaceSpawn;
-        GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
+        _gameSetID = gameSet;
+        GameManager.OnRegisterEntity?.Invoke(this);
     }
 
     public void InteractionCallback(ICharacter playerTouched)
@@ -22,7 +21,7 @@ public class FoodBehavior : EntityBase, IInteractableObject
 
     private void EatFood()
     {
-        GameManager.Instance.OnFoodEaten?.Invoke(_placeSpawned);
+        GameManager.Instance.OnFoodEaten?.Invoke(_gameSetID);
         _currentPlayer.BodyGrow();
         Destroy(this.gameObject);
     }

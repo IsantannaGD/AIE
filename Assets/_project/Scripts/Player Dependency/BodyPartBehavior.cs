@@ -17,10 +17,10 @@ public class BodyPartBehavior : EntityBase, IDangerousEncounter
     [SerializeField] private BodyPartType _partType;
     public BodyPartType PartType => _partType;
 
-    public override void OnEntitySpawn(GameSpaceType spaceSpawn)
+    public override void OnEntitySpawn(int gameSet)
     {
-        _spaceSpawned = spaceSpawn;
-        GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
+        _gameSetID = gameSet;
+        GameManager.OnRegisterEntity?.Invoke(this);
         StartCoroutine(MakeIntangible());
     }
 

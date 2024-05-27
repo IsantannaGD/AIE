@@ -24,13 +24,13 @@ public class MainMenuController : MonoBehaviour
 
     private void GoToSinglePlayerGame()
     {
-        GameManager.Instance.SetGameMode(GameMode.SinglePlayer);
+        GameManager.Instance.SetGameMode(GameModeType.SinglePlayer);
         SceneManager.LoadScene("Game");
     }
 
     private void GoToMultiplayerGame()
     {
-        GameManager.Instance.SetGameMode(GameMode.LocalMultiPlayer);
+        GameManager.Instance.SetGameMode(GameModeType.LocalMultiPlayer);
         SceneManager.LoadScene("Game");
     }
 

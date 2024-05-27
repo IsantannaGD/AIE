@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class TimeTravelPowerUp : EntityBase, IInteractableObject
 {
-    public override void OnEntitySpawn(GameSpaceType spaceSpawn)
+    public override void OnEntitySpawn(int gameSet)
     {
-        _spaceSpawned = spaceSpawn;
-        GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
+        _gameSetID = gameSet;
+        GameManager.OnRegisterEntity?.Invoke(this);
     }
 
     public void InteractionCallback(ICharacter playerTouched)
     {
-        
+        playerTouched.PickPowerUp(_entityType);
+        Destroy(this.gameObject);
     }
 }

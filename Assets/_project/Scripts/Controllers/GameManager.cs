@@ -7,25 +7,24 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    public static Action OnGameStart;
-    public static Action<EntityBase, GameSpaceType> OnRegisterEntity;
-    public static Action<EntityBase, GameSpaceType> OnRemoveEntity;
+    public static Action<EntityBase> OnRegisterEntity;
+    public static Action<EntityBase> OnRemoveEntity;
     public static Action<Vector2> OnRegisterLimits;
+    public static Action OnGameStart;
+    public static Action OnTimeTravelUse;
+    public static Action OnTimeTravelPick;
     public static Action OnGamePause;
-    public delegate void GameEvents(GameSpaceType spaceType);
+    public delegate void GameEvents(int setId);
     public GameEvents OnFoodEaten;
     public GameEvents OnEnemyDie;
-    public GameEvents OnTimeTravelUse;
-    public GameEvents OnTimeTravelPick;
     public GameEvents OnGameOver;
 
     public static GameManager Instance;
 
-    [SerializeField] private List<EntityBase> _allEntitiesInGameSpaceOne = new List<EntityBase>();
-    [SerializeField] private List<EntityBase> _allEntitiesInGameSpaceTwo = new List<EntityBase>();
+    [SerializeField] private List<EntityBase> _allEntitiesInGame = new List<EntityBase>();
     [SerializeField] private List<Vector2> _allWallPositions = new List<Vector2>();
 
-    [SerializeField] private GameMode _gameMode;
+    [FormerlySerializedAs("_gameMode")] [SerializeField] private GameModeType gameModeType;
 
     [SerializeField] private bool _gameOver;
     [SerializeField] private bool _gamePaused;
@@ -33,13 +32,11 @@ public class GameManager : MonoBehaviour
     public bool GameOver => _gameOver;
     public bool GamePaused => _gamePaused;
     public List<Vector2> AllWallPositions => _allWallPositions;
-    public GameMode CurrentGameMode => _gameMode;
+    public GameModeType CurrentGameModeType => gameModeType;
 
-    public bool CheckPositionViability(Vector2 pos, GameSpaceType spaceTarget)
+    public bool CheckPositionViability(Vector2 pos)
     {
-        List<EntityBase> listToCheck = spaceTarget == GameSpaceType.PlayerTwoSpace ? _allEntitiesInGameSpaceTwo : _allEntitiesInGameSpaceOne;
-
-        foreach (EntityBase entityBase in listToCheck)
+        foreach (EntityBase entityBase in _allEntitiesInGame)
         {
             if (entityBase.CurrentLocation == pos)
             { return false; }
@@ -48,9 +45,9 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    public void SetGameMode(GameMode mode)
+    public void SetGameMode(GameModeType modeType)
     {
-        _gameMode = mode;
+        gameModeType = modeType;
     }
 
     private void Awake()
@@ -65,35 +62,17 @@ public class GameManager : MonoBehaviour
         OnRemoveEntity += RemoveEntityFromListCallback;
         OnRegisterLimits += RegisterWall;
 
-        SceneManager.LoadScene("MainMenu");
+        //SceneManager.LoadScene("MainMenu");
     }
 
-    private void RegisterEntityCallback(EntityBase entity, GameSpaceType space)
+    private void RegisterEntityCallback(EntityBase entity)
     {
-        switch(space)
-        {
-            case GameSpaceType.SinglePlayerSpace:
-            case GameSpaceType.PlayerOneSpace:
-                _allEntitiesInGameSpaceOne.Add(entity);
-                break;
-            case GameSpaceType.PlayerTwoSpace:
-                _allEntitiesInGameSpaceTwo.Add(entity);
-                break;
-        }
+        _allEntitiesInGame.Add(entity);
     }
 
-    private void RemoveEntityFromListCallback(EntityBase entity, GameSpaceType space)
+    private void RemoveEntityFromListCallback(EntityBase entity)
     {
-        switch(space)
-        {
-            case GameSpaceType.SinglePlayerSpace:
-            case GameSpaceType.PlayerOneSpace:
-                _allEntitiesInGameSpaceOne.Remove(entity);
-                break;
-            case GameSpaceType.PlayerTwoSpace:
-                _allEntitiesInGameSpaceTwo.Remove(entity);
-                break;
-        }
+        _allEntitiesInGame.Remove(entity);
     }
 
     private void RegisterWall(Vector2 pos)

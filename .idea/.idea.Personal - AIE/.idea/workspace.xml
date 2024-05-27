@@ -6,29 +6,26 @@
   <component name="ChangeListManager">
     <list default="true" id="c880009a-983d-4fab-816e-1e0091aafb90" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Personal - AIE/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Personal - AIE/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (italic) SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (italic) SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (mono italic) SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (mono italic) SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (mono) SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (mono) SDF.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Prefabs/Enemy/[Enemy] Body Block.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Prefabs/Enemy/[Enemy] Body Block.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Prefabs/Enemy/[Enemy] Main Block.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Prefabs/Enemy/[Enemy] Main Block.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Prefabs/Player/[Player] Body Block.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Prefabs/Player/[Player] Body Block.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Prefabs/Player/[Player] Main Block.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Prefabs/Player/[Player] Main Block.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Prefabs/PowerUp/[PowerUp] Battering Ram.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Prefabs/PowerUp/[PowerUp] Battering Ram.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Prefabs/PowerUp/[PowerUp] Engine Power.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Prefabs/PowerUp/[PowerUp] Engine Power.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Prefabs/PowerUp/[PowerUp] Time Travel Power.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Prefabs/PowerUp/[PowerUp] Time Travel Power.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scenes/Game.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scenes/Initializations.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scenes/Initializations.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scenes/MainMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scenes/MainMenu.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GamePlaceController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GamePlaceController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameUIView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/MainMenuController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/MainMenuController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Interface/ICharacter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Interface/ICharacter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Enum/GameSpaceType.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Enum/GameSpaceType.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Gameplace Dependency/FoodBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Gameplace Dependency/FoodBehavior.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/BodyPartBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/BodyPartBehavior.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/Player.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/BatteringRamPowerUp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/BatteringRamPowerUp.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/EnginePowerPowerUp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/EnginePowerPowerUp.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/DontDestroyOnLoadFunc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/DontDestroyOnLoadFunc.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/TimeTravelPowerUp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/TimeTravelPowerUp.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/EntityBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/EntityBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +50,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Interface/IInteractableObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/EnginePowerPowerUp.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/TimeTravelPowerUp.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Utilities/GameSetStatus.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Utilities/WallAssemblyFunc.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="2gnPPuq6TztlaHJazfQLFSK6rnD" />
@@ -136,7 +134,7 @@
       <workItem from="1716683914598" duration="9568000" />
       <workItem from="1716695140550" duration="3812000" />
       <workItem from="1716744181652" duration="797000" />
-      <workItem from="1716745546129" duration="25735000" />
+      <workItem from="1716745546129" duration="30343000" />
     </task>
     <servers />
   </component>

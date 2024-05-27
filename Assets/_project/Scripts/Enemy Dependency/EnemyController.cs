@@ -28,14 +28,10 @@ public class EnemyController : EntityBase, ICharacter
     [SerializeField] private bool _redefiningRotation;
     [SerializeField] private bool _rightPathBlocked, _leftPathBlocked, _upperPathBlocked, _bottomPathBlocked = false;
 
-    [SerializeField] private bool _haveBatteringRam = false;
-
-    [SerializeField] private int _batteringRamCount = 0;
-
-    public override void OnEntitySpawn(GameSpaceType spaceSpawn)
+    public override void OnEntitySpawn(int gameSet)
     {
-        _spaceSpawned = spaceSpawn;
-        GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
+        _gameSetID = gameSet;
+        GameManager.OnRegisterEntity?.Invoke(this);
 
         _bodyPartTypeList.Add(BodyPartType.Regular);
     }
@@ -52,7 +48,7 @@ public class EnemyController : EntityBase, ICharacter
         { pos = _fullBody[^1].transform.position; }
 
         BodyPartBehavior bodyPart = Instantiate(_bodyPrefab, pos, Quaternion.identity);
-        bodyPart.OnEntitySpawn(_spaceSpawned);
+        bodyPart.OnEntitySpawn(_gameSetID);
         _fullBody.Add(bodyPart);
         _bodyPartTypeList.Insert(0, type);
 
@@ -61,7 +57,7 @@ public class EnemyController : EntityBase, ICharacter
 
     public void ReceiveDamage()
     {
-        GameManager.Instance.OnEnemyDie?.Invoke(_spaceSpawned);
+        GameManager.Instance.OnEnemyDie?.Invoke(_gameSetID);
         EnemyDead();
     }
 
