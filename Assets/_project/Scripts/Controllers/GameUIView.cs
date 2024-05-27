@@ -35,6 +35,7 @@ public class GameUIView : MonoBehaviour
     [SerializeField] private BodyPartType[][] _bodyPartsToSelect = new BodyPartType[3][];
     [SerializeField] private int _preSetIndex;
 
+    [SerializeField] private float _timer;
     [SerializeField] private int _playerCount;
     [SerializeField] private bool _newPlayerSelect;
 
@@ -56,6 +57,12 @@ public class GameUIView : MonoBehaviour
                 MoveSelectionToRight();
             }
         }
+
+        if (!GameManager.Instance.GamePaused && !GameManager.Instance.GameOver && GameManager.Instance.GameStarted)
+        {
+            _timer += Time.deltaTime;
+            UpdateClock();
+        }
     }
 
     private void Initializations()
@@ -74,6 +81,12 @@ public class GameUIView : MonoBehaviour
         _gameOverPanelExitButton.onClick.AddListener(ExitGameCallback);
 
         SetupPreSetBodyParts();
+    }
+
+    private void UpdateClock()
+    {
+        TimeSpan t = TimeSpan.FromSeconds(_timer);
+        _timerDisplay.text = t.ToString("mm':'ss");
     }
 
     private void StartGameCallback()
