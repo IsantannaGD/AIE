@@ -101,9 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e42b72342661370448615c1c4d4f00c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spaceSpawned: 0
   _entityType: 1
   _savedLocation: {x: 0, y: 0}
+  _gameSetID: 0
   _regularColor: {r: 0, g: 1, b: 0, a: 1}
   _headDisplay: {fileID: 3613650483545042095}
   _bodyPrefab: {fileID: -4794733729662771083, guid: 79eebd0b4a0d27a4da61a577399033b0, type: 3}
@@ -115,7 +115,8 @@ MonoBehaviour:
   _externalMultiplier: 0
   _directionIndex: 1
   _moveTime: 0
-  isRotating: 0
+  _isRotating: 0
+  _isAlive: 0
   _leftKey: 97
   _rightKey: 100
   _haveBatteringRam: 0

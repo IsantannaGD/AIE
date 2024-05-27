@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Player : EntityBase, ICharacter
 {
@@ -20,7 +21,8 @@ public class Player : EntityBase, ICharacter
 
     [SerializeField] private DirectionType _directionIndex = DirectionType.Up;
     [SerializeField] private float _moveTime = 0f;
-    [SerializeField] private bool isRotating = false;
+    [SerializeField] private bool _isRotating = false;
+    [SerializeField] private bool _isAlive;
 
     [SerializeField] private string _leftKey;
     [SerializeField] private string _rightKey;
@@ -30,18 +32,38 @@ public class Player : EntityBase, ICharacter
 
     [SerializeField] private int _batteringRamCount = 0;
 
+    public bool IsAlive => _isAlive;
+
     public override void OnEntitySpawn(int gameSet)
     {
         _gameSetID = gameSet;
         GameManager.OnRegisterEntity?.Invoke(this);
-
-        _bodyPartTypeList.Add(BodyPartType.Regular);
     }
 
     public void SetInput(char l, char r)
     {
         _leftKey = $"{l}";
         _rightKey =$"{r}";
+    }
+
+    public void SetInitialSetup(BodyPartType[] parts)
+    {
+        foreach (BodyPartType part in parts)
+        {
+            _bodyPartTypeList.Add(part);
+        }
+
+        BodyPartBehavior bodyPart1 = Instantiate(_bodyPrefab, transform.position, Quaternion.identity);
+        bodyPart1.OnEntitySpawn(_gameSetID);
+        _playerBody.Add(bodyPart1);
+
+        BodyPartBehavior bodyPart2 = Instantiate(_bodyPrefab, transform.position, Quaternion.identity);
+        bodyPart2.OnEntitySpawn(_gameSetID);
+        _playerBody.Add(bodyPart2);
+
+        _isAlive = true;
+
+        ReOrderBodePartCallback();
     }
 
     public void BodyGrow(BodyPartType type = BodyPartType.Regular)
@@ -62,8 +84,7 @@ public class Player : EntityBase, ICharacter
     {
         if (!_haveTimeTravel)
         {
-            GameManager.Instance.OnGameOver?.Invoke(_gameSetID);
-            Debug.LogWarning("Morreu Otário");
+            PlayerDieCallback();
             return;
         }
 
@@ -161,7 +182,7 @@ public class Player : EntityBase, ICharacter
 
     private void ChangeDirection()
     {
-        if(isRotating)
+        if(_isRotating || GameManager.Instance.GamePaused)
         {return;}
 
         if(Input.GetKeyDown(_rightKey))
@@ -219,6 +240,9 @@ public class Player : EntityBase, ICharacter
 
     private void Move()
     {
+        if(GameManager.Instance.GamePaused)
+        {return;}
+
         if (Time.time > _moveTime)
         {
             for (int i = _playerBody.Count - 1; i > 0; i--)
@@ -232,7 +256,7 @@ public class Player : EntityBase, ICharacter
 
             transform.position += (Vector3)_direction * _cellSize;
             _moveTime = Time.time + 1 / realVelocity;
-            isRotating = false;
+            _isRotating = false;
         }
     }
 
@@ -255,5 +279,18 @@ public class Player : EntityBase, ICharacter
         {
             _playerBody[i].ChangeTypeCallback(_bodyPartTypeList[i + 1]);
         }
+    }
+
+    private void PlayerDieCallback()
+    {
+        _isAlive = false;
+        GameManager.Instance.OnPlayerDie?.Invoke(_gameSetID);
+
+        foreach (BodyPartBehavior partBehavior in _playerBody)
+        {
+            Destroy(partBehavior.gameObject);
+        }
+
+        Destroy(gameObject);
     }
 }

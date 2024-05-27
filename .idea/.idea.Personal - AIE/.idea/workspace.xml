@@ -8,13 +8,14 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Personal - AIE/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Personal - AIE/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 SDF.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scenes/Game.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scenes/MainMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scenes/MainMenu.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GamePlaceController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GamePlaceController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameUIView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/InputManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Enum/GameModeType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Enum/GameModeType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/Player.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/GameSetStatus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/GameSetStatus.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/InputManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/InputManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +24,10 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/DecompilerCache/decompiler/d5e1afac8c5140ed81d17f1b7b6e5ec71e1400/4d/81d9f2ee/LayoutDataStore.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/DecompilerCache/decompiler/f843d796055e4deaa447e7ba073cff5f46ae00/1f/1e325ccd/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/JetBrains/Shared/vAny/SourcesCache/cca89918937e838503d883f1aa1784c57493a1cacd61b1f5fe1ebf5a1e3567a/System.Numerics.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Luby - International School/InternationalSchool_GameHub/U.International_GameHub/Assets/_Project/03.Scripts/Crossword/CrossWordSceneConstructor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/QuickOutline/Scripts/Outline.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GamePlaceController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Controllers/InputManager.cs" root0="FORCE_HIGHLIGHTING" />
@@ -32,7 +35,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Enum/DirectionType.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Enum/EntityType.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Enum/GameSpaceType.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Extension/RoundCompare.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Gameplace Dependency/FoodBehavior.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_project/Scripts/Interface/ICharacter.cs" root0="FORCE_HIGHLIGHTING" />
@@ -123,7 +125,7 @@
       <workItem from="1716683914598" duration="9568000" />
       <workItem from="1716695140550" duration="3812000" />
       <workItem from="1716744181652" duration="797000" />
-      <workItem from="1716745546129" duration="37463000" />
+      <workItem from="1716745546129" duration="47218000" />
     </task>
     <servers />
   </component>

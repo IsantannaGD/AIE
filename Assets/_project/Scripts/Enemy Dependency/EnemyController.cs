@@ -57,7 +57,11 @@ public class EnemyController : EntityBase, ICharacter
 
     public void ReceiveDamage()
     {
-        GameManager.Instance.OnEnemyDie?.Invoke(_gameSetID);
+        if (!GameManager.Instance.GameOver)
+        {
+            GameManager.Instance.OnEnemyDie?.Invoke(_gameSetID);
+        }
+        
         EnemyDead();
     }
 
@@ -241,6 +245,9 @@ public class EnemyController : EntityBase, ICharacter
 
     private void Move()
     {
+        if(GameManager.Instance.GamePaused)
+        {return;}
+
         if (Time.time > _moveTime)
         {
             Vector2 lastDirection = _direction;

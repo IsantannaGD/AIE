@@ -21,6 +21,12 @@ public class InputManager : MonoBehaviour
 
     [SerializeField] private bool _cooldown;
 
+    [SerializeField] private string _currentLeftInput;
+    [SerializeField] private string _currentRightInput;
+
+    public string CurrentLeftInput => _currentLeftInput;
+    public string CurrentRightInput => _currentRightInput;
+
     private void Update()
     {
         if (!GameManager.Instance.GameStarted)
@@ -42,6 +48,8 @@ public class InputManager : MonoBehaviour
                 if (_resetCounter == 2)
                 {
                     GameManager.OnResetPlayerList?.Invoke();
+                    _currentLeftInput = string.Empty;
+                    _currentRightInput = string.Empty;
                     _resetCounter = 0;
                 }
             }
@@ -53,7 +61,7 @@ public class InputManager : MonoBehaviour
 
                 if (!_keyOneRegistered && Input.inputString != _keyTwoRegisteredString)
                 {
-                    _keyOneRegisteredString = Input.inputString.Filter(true, true, false, false, false);
+                    _keyOneRegisteredString = Input.inputString.Filter(true, true, false, false, false).ToLower();
 
                     if (string.IsNullOrWhiteSpace(_keyOneRegisteredString))
                         return;
@@ -63,7 +71,7 @@ public class InputManager : MonoBehaviour
                 }
                 else if (!_keyTwoRegistered && Input.inputString != _keyOneRegisteredString)
                 {
-                    _keyTwoRegisteredString = Input.inputString.Filter(true, true, false, false, false);
+                    _keyTwoRegisteredString = Input.inputString.Filter(true, true, false, false, false).ToLower();
 
                     if (string.IsNullOrWhiteSpace(_keyTwoRegisteredString))
                         return;
@@ -100,10 +108,23 @@ public class InputManager : MonoBehaviour
                 }
             }
         }
+
+        if (!GameManager.Instance.GameOver && GameManager.Instance.GameStarted)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && !_cooldown)
+            {
+                GameManager.OnGamePause?.Invoke();
+                _cooldown = true;
+                StartCoroutine(CooldownRoutine());
+            }
+        }
     }
 
     private void ResetCounters()
     {
+        _currentLeftInput = _keyOneRegisteredString;
+        _currentRightInput = _keyTwoRegisteredString;
+
         _cooldown = true;
         _keysCount = 0;
         _keyOneRegistered = false;

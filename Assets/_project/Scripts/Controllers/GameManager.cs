@@ -11,15 +11,17 @@ public class GameManager : MonoBehaviour
     public static Action<EntityBase> OnRegisterEntity;
     public static Action<EntityBase> OnRemoveEntity;
     public static Action<Vector2> OnRegisterLimits;
+    public static Action<BodyPartType[], int> OnInitialSetupSelected;
     public static Action OnResetPlayerList;
     public static Action OnGameStart;
     public static Action OnTimeTravelUse;
     public static Action OnTimeTravelPick;
     public static Action OnGamePause;
+    public static Action OnGameOver;
     public delegate void GameEvents(int setId);
     public GameEvents OnFoodEaten;
+    public GameEvents OnPlayerDie;
     public GameEvents OnEnemyDie;
-    public GameEvents OnGameOver;
 
     public static GameManager Instance;
 
@@ -46,6 +48,14 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+    public void ReturnToMainMenu()
+    {
+        _gameOver = false;
+        _gameStarted = false;
+        _gamePaused = false;
+        SceneManager.LoadScene("MainMenu");
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -55,16 +65,29 @@ public class GameManager : MonoBehaviour
     private void Initializations()
     {
         OnGameStart += StartGameCallback;
+        OnGameOver += GameOverCallback;
+        OnGamePause += GamePauseCallback;
         OnRegisterEntity += RegisterEntityCallback;
         OnRemoveEntity += RemoveEntityFromListCallback;
         OnRegisterLimits += RegisterWall;
 
-        //SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void StartGameCallback()
     {
         _gameStarted = true;
+    }
+
+    private void GameOverCallback()
+    {
+        _gamePaused = true;
+        _gameOver = true;
+    }
+
+    private void GamePauseCallback()
+    {
+        _gamePaused = !_gamePaused;
     }
 
     private void RegisterEntityCallback(EntityBase entity)

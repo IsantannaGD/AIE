@@ -28,8 +28,10 @@ public class GamePlaceController : MonoBehaviour
     {
         GameManager.OnRegisterNewPlayer += RegisterNewPlayers;
         GameManager.OnResetPlayerList += ResetPlayerListCallback;
+        GameManager.OnInitialSetupSelected += InitialSetupSelectedCallback;
         GameManager.Instance.OnFoodEaten += SpawnFood;
         GameManager.Instance.OnEnemyDie += SpawnEnemy;
+        GameManager.Instance.OnPlayerDie += CheckGameOverCondition;
         GameManager.OnGameStart += GameStartCallback;
     }
 
@@ -43,6 +45,12 @@ public class GamePlaceController : MonoBehaviour
         _gameSetEnables.Add(newSet);
     }
 
+    private void InitialSetupSelectedCallback(BodyPartType[] body, int setId)
+    {
+        GameSetStatus current = _gameSetEnables.Find((x) => x.GameSetID == setId);
+        current.SetInitialSetup(body);
+    }
+
     private void GameStartCallback()
     {
         if (_gameSetCount == 0)
@@ -53,7 +61,7 @@ public class GamePlaceController : MonoBehaviour
         for (int i = 0; i < _gameSetCount; i++)
         {
             GameSetStatus newSet = _gameSetEnables[i];
-            SpawnPlayer(newSet.GameSetID);
+            SpawnPlayer(newSet.GameSetID, true);
 
             int random = Random.Range(0, _allFoodsPrefab.Count);
             var food = Instantiate(_allFoodsPrefab[random], GetRandomPosition(), quaternion.identity) ;
@@ -66,14 +74,15 @@ public class GamePlaceController : MonoBehaviour
         StartCoroutine(PowerUpRespawnRoutine());
     }
 
-    private void SpawnPlayer(int setId)
+    private void SpawnPlayer(int setId, bool initialSpawn = false)
     {
-        Player player = Instantiate(_playerPrefab, GetRandomPosition(), Quaternion.identity);
+        Player player = Instantiate(_playerPrefab, GetRandomPosition(initialSpawn), Quaternion.identity);
         player.OnEntitySpawn(setId);
 
         GameSetStatus current = _gameSetEnables.Find((x) => x.GameSetID == setId);
         current.Player = player;
         current.Player.SetInput(current.LeftInput, current.RightInput);
+        current.Player.SetInitialSetup(current.InitialSetup);
     }
 
     private void SpawnEnemy(int setId)
@@ -123,10 +132,16 @@ public class GamePlaceController : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
-    private Vector2 GetRandomPosition()
+    private Vector2 GetRandomPosition(bool initialSpawn = false)
     {
         int minRange = -30;
         int maxRange = 31;
+
+        if (initialSpawn)
+        {
+            minRange = -20;
+            maxRange = 21;
+        }
 
         float x = Random.Range(minRange, maxRange) * _cellSize;
         float y = Random.Range(-11, 11) * _cellSize;
@@ -137,6 +152,9 @@ public class GamePlaceController : MonoBehaviour
         {
             x = Random.Range(minRange, maxRange) * _cellSize;
             y = Random.Range(-11, 11) * _cellSize;
+
+            if (initialSpawn)
+            { y = Random.Range(-6, 6) * _cellSize; }
 
             randomPos = new Vector2(x, y);
         }
@@ -157,20 +175,36 @@ public class GamePlaceController : MonoBehaviour
 
     private void ResetPlayerListCallback()
     {
-        foreach (GameSetStatus setEnable in _gameSetEnables)
+        for (int i = 0; i < _gameSetEnables.Count; i++)
         {
-            _gameSetEnables.Remove(setEnable);
+            _gameSetEnables.Remove(_gameSetEnables[i]);
         }
 
         _gameSetCount = 0;
+    }
+
+    private void CheckGameOverCondition(int playerId)
+    {
+        GameSetStatus g = _gameSetEnables.Find((x) => x.GameSetID == playerId);
+        g.PlayerAlive = false;
+
+        foreach (GameSetStatus set in _gameSetEnables)
+        {
+            if(set.PlayerAlive)
+            {return;}
+        }
+
+        GameManager.OnGameOver?.Invoke();
     }
 
     private void OnDestroy()
     {
         GameManager.OnRegisterNewPlayer -= RegisterNewPlayers;
         GameManager.OnResetPlayerList -= ResetPlayerListCallback;
+        GameManager.OnInitialSetupSelected -= InitialSetupSelectedCallback;
         GameManager.Instance.OnFoodEaten -= SpawnFood;
         GameManager.Instance.OnEnemyDie -= SpawnEnemy;
+        GameManager.Instance.OnPlayerDie -= CheckGameOverCondition;
         GameManager.OnGameStart -= GameStartCallback;
     }
 }
