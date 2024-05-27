@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
@@ -14,8 +15,8 @@ public class GameManager : MonoBehaviour
     public delegate void GameEvents(GameSpaceType spaceType);
     public GameEvents OnFoodEaten;
     public GameEvents OnEnemyDie;
-    public GameEvents OnSaveState;
-    public GameEvents OnLoadState;
+    public GameEvents OnTimeTravelUse;
+    public GameEvents OnTimeTravelPick;
     public GameEvents OnGameOver;
 
     public static GameManager Instance;
@@ -47,6 +48,11 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+    public void SetGameMode(GameMode mode)
+    {
+        _gameMode = mode;
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -58,6 +64,8 @@ public class GameManager : MonoBehaviour
         OnRegisterEntity += RegisterEntityCallback;
         OnRemoveEntity += RemoveEntityFromListCallback;
         OnRegisterLimits += RegisterWall;
+
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void RegisterEntityCallback(EntityBase entity, GameSpaceType space)

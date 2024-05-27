@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.3280983, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -101,20 +101,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e42b72342661370448615c1c4d4f00c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spaceSpawned: 0
   _entityType: 1
   _savedLocation: {x: 0, y: 0}
-  _snakeIndex: {x: 0, y: 0}
+  _regularColor: {r: 0, g: 1, b: 0, a: 1}
+  _headDisplay: {fileID: 3613650483545042095}
   _bodyPrefab: {fileID: -4794733729662771083, guid: 79eebd0b4a0d27a4da61a577399033b0, type: 3}
   _playerBody: []
+  _bodyPartTypeList: 
   _cellSize: 0.3
   _speed: 5
   _cargoLoadMultiplier: 0.05
   _externalMultiplier: 0
-  _moveTime: 0
   _directionIndex: 1
+  _moveTime: 0
   isRotating: 0
   _leftKey: 97
   _rightKey: 100
+  _haveBatteringRam: 0
+  _haveTimeTravel: 0
+  _batteringRamCount: 0
 --- !u!50 &3150200795488397475
 Rigidbody2D:
   serializedVersion: 4

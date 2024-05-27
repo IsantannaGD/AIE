@@ -12,7 +12,8 @@ public class EnginePowerPowerUp : EntityBase, IInteractableObject
 
     public void InteractionCallback(ICharacter playerTouched)
     {
-        
+        GameManager.Instance.OnFoodEaten?.Invoke(_spaceSpawned);
+        playerTouched.PickPowerUp(_entityType);
+        Destroy(this.gameObject);
     }
-
 }

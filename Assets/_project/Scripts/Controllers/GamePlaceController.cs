@@ -12,6 +12,8 @@ public class GamePlaceController : MonoBehaviour
     [SerializeField] private FoodBehavior _foodPrefab;
 
     [SerializeField] private List<EntityBase> _allTypesPowerUp = new List<EntityBase>();
+    [SerializeField] private EntityBase _currentPowerUpOne;
+    [SerializeField] private EntityBase _currentPowerUpTwo;
 
     [SerializeField] private WallAssemblyFunc _divisorWall;
 
@@ -25,6 +27,10 @@ public class GamePlaceController : MonoBehaviour
     [SerializeField] private float _powerUpRespawnCooldown = 60f;
     [SerializeField] private WaitForSeconds _powerUpWaitFor;
 
+    [SerializeField] private bool registred;
+    [SerializeField] private string test;
+    [SerializeField] private int count;
+
     private void Start()
     {
         GameManager.Instance.OnFoodEaten += SpawnFood;
@@ -32,6 +38,28 @@ public class GamePlaceController : MonoBehaviour
         GameManager.OnGameStart += GameStartCallback;
 
         GameStartCallback();
+    }
+
+    private void Update()
+    {
+        if (Input.anyKey)
+        {
+            if(Input.inputString == string.Empty)
+                return;
+
+            if (!registred)
+            {
+                test = Input.inputString;
+                registred = true;
+                count++;
+            }
+        }
+
+        if (registred && Input.GetKeyUp(test))
+        {
+            count--;
+            registred = false;
+        }
     }
 
     private void GameStartCallback()
@@ -120,18 +148,41 @@ public class GamePlaceController : MonoBehaviour
                 switch (GameManager.Instance.CurrentGameMode)
                 {
                     case GameMode.SinglePlayer:
+
+                        if (_currentPowerUpOne != null)
+                        {
+                            Destroy(_currentPowerUpOne.gameObject);
+                            _currentPowerUpOne = null;
+                        }
+
                         random = Random.Range(0, _allTypesPowerUp.Count);
                         var power = Instantiate(_allTypesPowerUp[random], GetRandomPosition(GameSpaceType.SinglePlayerSpace), quaternion.identity) ;
                         power.OnEntitySpawn(GameSpaceType.SinglePlayerSpace);
+                        _currentPowerUpOne = power;
                         break;
                     case GameMode.LocalMultiPlayer:
+
+                        if (_currentPowerUpOne != null)
+                        {
+                            Destroy(_currentPowerUpOne.gameObject);
+                            _currentPowerUpOne = null;
+                        }
+
                         random = Random.Range(0, _allTypesPowerUp.Count);
                         var power1 = Instantiate(_allTypesPowerUp[random], GetRandomPosition(GameSpaceType.PlayerOneSpace), quaternion.identity) ;
                         power1.OnEntitySpawn(GameSpaceType.PlayerOneSpace);
+                        _currentPowerUpOne = power1;
+
+                        if (_currentPowerUpTwo != null)
+                        {
+                            Destroy(_currentPowerUpTwo.gameObject);
+                            _currentPowerUpTwo = null;
+                        }
 
                         random = Random.Range(0, _allTypesPowerUp.Count);
                         var power2 = Instantiate(_allTypesPowerUp[random], GetRandomPosition(GameSpaceType.PlayerTwoSpace), quaternion.identity) ;
                         power2.OnEntitySpawn(GameSpaceType.PlayerTwoSpace);
+                        _currentPowerUpOne = power2;
                         break;
                 }
             }
@@ -178,6 +229,14 @@ public class GamePlaceController : MonoBehaviour
         }
 
         return randomPos;
+    }
+
+    [ContextMenu("TestPU")]
+    private void SpawnTest()
+    {
+        int random = 0;
+        var power = Instantiate(_allTypesPowerUp[random], GetRandomPosition(GameSpaceType.SinglePlayerSpace), quaternion.identity) ;
+        power.OnEntitySpawn(GameSpaceType.SinglePlayerSpace);
     }
 
     private void OnDestroy()

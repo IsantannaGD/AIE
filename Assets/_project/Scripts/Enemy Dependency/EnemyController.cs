@@ -8,11 +8,14 @@ public class EnemyController : EntityBase, ICharacter
 {
     private Vector2 _direction = Vector2.up;
 
-    [SerializeField] private Vector2 _snakeIndex;
+    [SerializeField] private Color _regularColor;
+
+    [SerializeField] private SpriteRenderer _headDisplay;
 
     [SerializeField] private Vector2 _targetPosition;
     [SerializeField] private BodyPartBehavior _bodyPrefab;
     [SerializeField] private List<BodyPartBehavior> _fullBody = new List<BodyPartBehavior>();
+    [SerializeField] private List<BodyPartType> _bodyPartTypeList = new List<BodyPartType>();
     
     [SerializeField] private float _cellSize = 0.3f;
     [SerializeField] private float _speed = 5f;
@@ -25,10 +28,16 @@ public class EnemyController : EntityBase, ICharacter
     [SerializeField] private bool _redefiningRotation;
     [SerializeField] private bool _rightPathBlocked, _leftPathBlocked, _upperPathBlocked, _bottomPathBlocked = false;
 
+    [SerializeField] private bool _haveBatteringRam = false;
+
+    [SerializeField] private int _batteringRamCount = 0;
+
     public override void OnEntitySpawn(GameSpaceType spaceSpawn)
     {
         _spaceSpawned = spaceSpawn;
         GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
+
+        _bodyPartTypeList.Add(BodyPartType.Regular);
     }
 
     public void SetTargetPosition(Vector2 target)
@@ -36,7 +45,7 @@ public class EnemyController : EntityBase, ICharacter
         _targetPosition = target;
     }
 
-    public void BodyGrow()
+    public void BodyGrow(BodyPartType type = BodyPartType.Regular)
     {
         Vector2 pos = transform.position;
         if (_fullBody.Count != 0)
@@ -45,6 +54,9 @@ public class EnemyController : EntityBase, ICharacter
         BodyPartBehavior bodyPart = Instantiate(_bodyPrefab, pos, Quaternion.identity);
         bodyPart.OnEntitySpawn(_spaceSpawned);
         _fullBody.Add(bodyPart);
+        _bodyPartTypeList.Insert(0, type);
+
+        ReOrderBodePartCallback();
     }
 
     public void ReceiveDamage()
@@ -55,12 +67,52 @@ public class EnemyController : EntityBase, ICharacter
 
     public void PickPowerUp(EntityType type)
     {
-        throw new NotImplementedException();
+        switch (type)
+        {
+            case EntityType.EnginePowerPowerUp:
+                PickUpEnginePowerCallback();
+                break;
+            case EntityType.BatteryRamPowerUp:
+                PickUpBatteringRamCallback();
+                break;
+        }
     }
 
     private void Update()
     {
         Move();
+    }
+
+    private void PickUpEnginePowerCallback()
+    {
+        _externalMultiplier += _fullBody.Count * (_cargoLoadMultiplier * 1.5f);
+        BodyGrow(BodyPartType.EnginePower);
+    }
+
+    private void PickUpBatteringRamCallback()
+    {
+        BodyGrow(BodyPartType.BatteringRam);
+    }
+
+    private void ReOrderBodePartCallback()
+    {
+        switch (_bodyPartTypeList[0])
+        {
+            case BodyPartType.Regular:
+                _headDisplay.color = _regularColor;
+                break;
+            case BodyPartType.BatteringRam:
+                _headDisplay.color = Color.magenta;
+                break;
+            case BodyPartType.EnginePower:
+                _headDisplay.color = Color.white;
+                break;
+        }
+
+        for (int i = 0; i < _fullBody.Count; i++)
+        {
+            _fullBody[i].ChangeTypeCallback(_bodyPartTypeList[i + 1]);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -245,7 +297,6 @@ public class EnemyController : EntityBase, ICharacter
 
             transform.position += (Vector3)_direction * _cellSize;
             _moveTime = Time.time + 1 / realVelocity;
-            _snakeIndex = transform.position / _cellSize;
             _isRotating = false;
 
             PathRedefined();

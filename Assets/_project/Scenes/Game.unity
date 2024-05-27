@@ -1245,16 +1245,21 @@ MonoBehaviour:
   _enemyPrefab: {fileID: 3121833039516505224, guid: f4620155ac2336044879881526717f18, type: 3}
   _foodPrefab: {fileID: 7603950855048842740, guid: 09aabca777995694a9e316378545d21b, type: 3}
   _allTypesPowerUp:
-  - {fileID: 3030067996474470225, guid: 65ad4b49e583d7f45ac2b88d3feda963, type: 3}
   - {fileID: 5520490711943172134, guid: 280f755380bff8f4b80d46b1f28e51f2, type: 3}
+  - {fileID: 3030067996474470225, guid: 65ad4b49e583d7f45ac2b88d3feda963, type: 3}
   - {fileID: 8180558694849035931, guid: 24ae1ffdac43b964f984f8e18076e11f, type: 3}
+  _currentPowerUpOne: {fileID: 0}
+  _currentPowerUpTwo: {fileID: 0}
   _divisorWall: {fileID: 1885870546}
   _foodOne: {fileID: 0}
   _foodTwo: {fileID: 0}
   _enemyOneController: {fileID: 0}
   _enemyTwoController: {fileID: 0}
   _cellSize: 0.3
-  _powerUpRespawnCooldown: 60
+  _powerUpRespawnCooldown: 10
+  registred: 0
+  test: 
+  count: 0
 --- !u!1001 &202875998
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11873,7 +11878,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1508632270
 Transform:
   m_ObjectHideFlags: 0
@@ -11904,7 +11909,7 @@ MonoBehaviour:
   _allEntitiesInGameSpaceOne: []
   _allEntitiesInGameSpaceTwo: []
   _allWallPositions: []
-  _gameMode: 1
+  _gameMode: 0
   _gameOver: 0
   _gamePaused: 0
 --- !u!1001 &1509853911

@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.15294118, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.37254903, b: 0.25882354, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -101,19 +101,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f4ae2ff708700e4b8e19229ce055113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spaceSpawned: 0
   _entityType: 3
   _savedLocation: {x: 0, y: 0}
-  _snakeIndex: {x: 0, y: 0}
+  _regularColor: {r: 1, g: 0.37254903, b: 0.25882354, a: 1}
+  _headDisplay: {fileID: 2439736142513067566}
   _targetPosition: {x: 0, y: 0}
   _bodyPrefab: {fileID: 959797511891678531, guid: 754275c77266f594383a20c31fac28a1, type: 3}
   _fullBody: []
+  _bodyPartTypeList: 
   _cellSize: 0.3
   _speed: 5
   _cargoLoadMultiplier: 0.05
   _externalMultiplier: 0
-  _moveTime: 0
   _directionIndex: 1
-  isRotating: 0
+  _moveTime: 0
+  _isRotating: 0
+  _redefiningRotation: 0
+  _rightPathBlocked: 0
+  _leftPathBlocked: 0
+  _upperPathBlocked: 0
+  _bottomPathBlocked: 0
+  _haveBatteringRam: 0
+  _batteringRamCount: 0
 --- !u!50 &300131425833581692
 Rigidbody2D:
   serializedVersion: 4

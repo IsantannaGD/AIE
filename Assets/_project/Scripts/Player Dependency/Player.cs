@@ -1,17 +1,17 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : EntityBase, ICharacter
 {
-     private Vector2 _direction = Vector2.up;
+    private Vector2 _direction = Vector2.up;
 
-    [SerializeField] private Vector2 _snakeIndex;
+    [SerializeField] private Color _regularColor;
+
+    [SerializeField] private SpriteRenderer _headDisplay;
 
     [SerializeField] private BodyPartBehavior _bodyPrefab;
     [SerializeField] private List<BodyPartBehavior> _playerBody = new List<BodyPartBehavior>();
+    [SerializeField] private List<BodyPartType> _bodyPartTypeList = new List<BodyPartType>();
 
     [SerializeField] private float _cellSize = 0.3f;
     [SerializeField] private float _speed = 5f;
@@ -28,13 +28,17 @@ public class Player : EntityBase, ICharacter
     [SerializeField] private bool _haveBatteringRam = false;
     [SerializeField] private bool _haveTimeTravel = false;
 
+    [SerializeField] private int _batteringRamCount = 0;
+
     public override void OnEntitySpawn(GameSpaceType spaceSpawn)
     {
         _spaceSpawned = spaceSpawn;
         GameManager.OnRegisterEntity?.Invoke(this, _spaceSpawned);
+
+        _bodyPartTypeList.Add(BodyPartType.Regular);
     }
 
-    public void BodyGrow()
+    public void BodyGrow(BodyPartType type = BodyPartType.Regular)
     {
         Vector2 pos = transform.position;
         if (_playerBody.Count != 0)
@@ -43,6 +47,9 @@ public class Player : EntityBase, ICharacter
         BodyPartBehavior bodyPart = Instantiate(_bodyPrefab, pos, Quaternion.identity);
         bodyPart.OnEntitySpawn(_spaceSpawned);
         _playerBody.Add(bodyPart);
+        _bodyPartTypeList.Insert(0, type);
+
+        ReOrderBodePartCallback();
     }
 
     public void ReceiveDamage()
@@ -50,7 +57,12 @@ public class Player : EntityBase, ICharacter
         if (!_haveTimeTravel)
         {
             GameManager.Instance.OnGameOver?.Invoke(_spaceSpawned);
+            Debug.LogWarning("Morreu Otário");
+            return;
         }
+
+        GameManager.Instance.OnTimeTravelUse?.Invoke(_spaceSpawned);
+        _haveTimeTravel = false;
     }
 
     public void PickPowerUp(EntityType type)
@@ -85,25 +97,60 @@ public class Player : EntityBase, ICharacter
 
         if (other.gameObject.TryGetComponent(out IDangerousEncounter enemyTouch))
         {
-            enemyTouch.DangerousInteractionCallback(this);
+            if (_haveBatteringRam && !other.gameObject.TryGetComponent(out WallBehavior wall))
+            {
+                UseBatteringRamCallback();
+            }
+            else
+            {
+                enemyTouch.DangerousInteractionCallback(this);
+            }
         }
     }
 
     private void PickUpEnginePowerCallback()
     {
-        float s = _playerBody.Count * (_cargoLoadMultiplier * 1.5f);
-
-        _speed = 0.5 > s ? _speed + 0.5f : _speed + s;
+        _externalMultiplier += _playerBody.Count * (_cargoLoadMultiplier * 1.5f);
+        BodyGrow(BodyPartType.EnginePower);
     }
 
     private void PickUpBatteringRamCallback()
     {
+        BodyGrow(BodyPartType.BatteringRam);
 
+        _batteringRamCount++;
+        _haveBatteringRam = _batteringRamCount > 0;
     }
 
     private void PickUpTimeTravelCallback()
     {
+        GameManager.Instance.OnTimeTravelPick?.Invoke(_spaceSpawned);
+        _haveTimeTravel = true;
+    }
 
+    private void UseBatteringRamCallback()
+    {
+        BodyPartBehavior lostPart = default;
+
+        foreach (BodyPartBehavior bodyPartBehavior in _playerBody)
+        {
+            bodyPartBehavior.MakeIntangibleCallback();
+
+            if (bodyPartBehavior.PartType == BodyPartType.BatteringRam)
+            {
+                lostPart = bodyPartBehavior;
+            }
+        }
+
+        int remove = _bodyPartTypeList.FindIndex((x) => x == BodyPartType.BatteringRam);
+        _bodyPartTypeList.RemoveAt(remove);
+        _playerBody.Remove(lostPart);
+        Destroy(lostPart.gameObject);
+
+        _batteringRamCount--;
+        _haveBatteringRam = _batteringRamCount > 0;
+
+        ReOrderBodePartCallback();
     }
 
     private void ChangeDirection()
@@ -179,8 +226,28 @@ public class Player : EntityBase, ICharacter
 
             transform.position += (Vector3)_direction * _cellSize;
             _moveTime = Time.time + 1 / realVelocity;
-            _snakeIndex = transform.position / _cellSize;
             isRotating = false;
+        }
+    }
+
+    private void ReOrderBodePartCallback()
+    {
+        switch (_bodyPartTypeList[0])
+        {
+            case BodyPartType.Regular:
+                _headDisplay.color = _regularColor;
+                break;
+            case BodyPartType.BatteringRam:
+                _headDisplay.color = Color.magenta;
+                break;
+            case BodyPartType.EnginePower:
+                _headDisplay.color = Color.white;
+                break;
+        }
+
+        for (int i = 0; i < _playerBody.Count; i++)
+        {
+            _playerBody[i].ChangeTypeCallback(_bodyPartTypeList[i + 1]);
         }
     }
 }

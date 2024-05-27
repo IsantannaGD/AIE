@@ -34,7 +34,7 @@ public abstract class EntityBase : MonoBehaviour
 
     private void BaseInitializations()
     {
-        GameManager.Instance.OnSaveState += OnSaveStateCallback;
+        GameManager.Instance.OnTimeTravelPick += OnSaveStateCallback;
     }
 
     private void OnDisable()
@@ -44,6 +44,6 @@ public abstract class EntityBase : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnSaveState -= OnSaveStateCallback;
+        GameManager.Instance.OnTimeTravelPick -= OnSaveStateCallback;
     }
 }
