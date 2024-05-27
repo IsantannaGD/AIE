@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -23,51 +24,35 @@ public class GamePlaceController : MonoBehaviour
     [SerializeField] private float _powerUpRespawnCooldown = 60f;
     [SerializeField] private WaitForSeconds _powerUpWaitFor;
 
-    [SerializeField] private bool registred;
-    [SerializeField] private string test;
-    [SerializeField] private int count;
-
     private void Start()
     {
+        GameManager.OnRegisterNewPlayer += RegisterNewPlayers;
+        GameManager.OnResetPlayerList += ResetPlayerListCallback;
         GameManager.Instance.OnFoodEaten += SpawnFood;
         GameManager.Instance.OnEnemyDie += SpawnEnemy;
         GameManager.OnGameStart += GameStartCallback;
-
-        GameStartCallback();
     }
 
-    private void Update()
+    private void RegisterNewPlayers(char l, char r)
     {
-        // if (Input.anyKey)
-        // {
-        //     if(Input.inputString == string.Empty)
-        //         return;
-        //
-        //     if (!registred)
-        //     {
-        //         test = Input.inputString;
-        //         registred = true;
-        //         count++;
-        //     }
-        // }
-        //
-        // if (registred && Input.GetKeyUp(test))
-        // {
-        //     count--;
-        //     registred = false;
-        // }
+        if(CheckInputConflict(l, r))
+        {return;}
+
+        _gameSetCount++;
+        GameSetStatus newSet = new GameSetStatus(_gameSetCount, l, r);
+        _gameSetEnables.Add(newSet);
     }
 
     private void GameStartCallback()
     {
-        _gameSetCount++;
-        _gameSetCount++;
+        if (_gameSetCount == 0)
+        {
+            RegisterNewPlayers('a', 'd');
+        }
 
         for (int i = 0; i < _gameSetCount; i++)
         {
-            GameSetStatus newSet = new GameSetStatus(i);
-            _gameSetEnables.Add(newSet);
-
+            GameSetStatus newSet = _gameSetEnables[i];
             SpawnPlayer(newSet.GameSetID);
 
             int random = Random.Range(0, _allFoodsPrefab.Count);
@@ -88,6 +73,7 @@ public class GamePlaceController : MonoBehaviour
 
         GameSetStatus current = _gameSetEnables.Find((x) => x.GameSetID == setId);
         current.Player = player;
+        current.Player.SetInput(current.LeftInput, current.RightInput);
     }
 
     private void SpawnEnemy(int setId)
@@ -158,8 +144,31 @@ public class GamePlaceController : MonoBehaviour
         return randomPos;
     }
 
+    private bool CheckInputConflict(char l, char r)
+    {
+        foreach (GameSetStatus setEnable in _gameSetEnables)
+        {
+            if (l.Equals(setEnable.LeftInput) || l.Equals(setEnable.RightInput) || r.Equals(setEnable.LeftInput) || r.Equals(setEnable.RightInput))
+            { return true; }
+        }
+
+        return false;
+    }
+
+    private void ResetPlayerListCallback()
+    {
+        foreach (GameSetStatus setEnable in _gameSetEnables)
+        {
+            _gameSetEnables.Remove(setEnable);
+        }
+
+        _gameSetCount = 0;
+    }
+
     private void OnDestroy()
     {
+        GameManager.OnRegisterNewPlayer -= RegisterNewPlayers;
+        GameManager.OnResetPlayerList -= ResetPlayerListCallback;
         GameManager.Instance.OnFoodEaten -= SpawnFood;
         GameManager.Instance.OnEnemyDie -= SpawnEnemy;
         GameManager.OnGameStart -= GameStartCallback;

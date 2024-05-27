@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] private Button _singlePlayerPlay;
-    [SerializeField] private Button _multiPlayerPlay;
+    [SerializeField] private Button _playGameButton;
     [SerializeField] private Button _exitGame;
 
     private void Start()
@@ -17,20 +17,12 @@ public class MainMenuController : MonoBehaviour
 
     private void Initializations()
     {
-        _singlePlayerPlay.onClick.AddListener(GoToSinglePlayerGame);
-        _multiPlayerPlay.onClick.AddListener(GoToMultiplayerGame);
+        _playGameButton.onClick.AddListener(PlayGameCallback);
         _exitGame.onClick.AddListener(ExitGame);
     }
 
-    private void GoToSinglePlayerGame()
+    private void PlayGameCallback()
     {
-        GameManager.Instance.SetGameMode(GameModeType.SinglePlayer);
-        SceneManager.LoadScene("Game");
-    }
-
-    private void GoToMultiplayerGame()
-    {
-        GameManager.Instance.SetGameMode(GameModeType.LocalMultiPlayer);
         SceneManager.LoadScene("Game");
     }
 

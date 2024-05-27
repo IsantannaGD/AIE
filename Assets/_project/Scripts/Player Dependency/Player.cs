@@ -22,8 +22,8 @@ public class Player : EntityBase, ICharacter
     [SerializeField] private float _moveTime = 0f;
     [SerializeField] private bool isRotating = false;
 
-    [SerializeField] private KeyCode _leftKey = KeyCode.A;
-    [SerializeField] private KeyCode _rightKey = KeyCode.D;
+    [SerializeField] private string _leftKey;
+    [SerializeField] private string _rightKey;
 
     [SerializeField] private bool _haveBatteringRam = false;
     [SerializeField] private bool _haveTimeTravel = false;
@@ -36,6 +36,12 @@ public class Player : EntityBase, ICharacter
         GameManager.OnRegisterEntity?.Invoke(this);
 
         _bodyPartTypeList.Add(BodyPartType.Regular);
+    }
+
+    public void SetInput(char l, char r)
+    {
+        _leftKey = $"{l}";
+        _rightKey =$"{r}";
     }
 
     public void BodyGrow(BodyPartType type = BodyPartType.Regular)

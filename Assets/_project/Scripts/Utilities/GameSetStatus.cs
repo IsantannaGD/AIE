@@ -10,10 +10,13 @@ public class GameSetStatus
     public Player Player;
     public EnemyController EnemyController;
     public EntityBase Food;
-    public Dictionary<EntityType, Vector2> TimeTravelRecorder;
+    public char LeftInput;
+    public char RightInput;
 
-    public GameSetStatus(int id)
+    public GameSetStatus(int id, char leftInput, char rightInput)
     {
         GameSetID = id;
+        LeftInput = leftInput;
+        RightInput = rightInput;
     }
 }

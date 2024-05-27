@@ -6,26 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="c880009a-983d-4fab-816e-1e0091aafb90" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Personal - AIE/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Personal - AIE/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (italic) SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (italic) SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (mono italic) SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (mono italic) SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (mono) SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 (mono) SDF.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Fonts/Digital7/digital-7 SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Prefabs/PowerUp/[PowerUp] Time Travel Power.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Prefabs/PowerUp/[PowerUp] Time Travel Power.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scenes/Game.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GamePlaceController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GamePlaceController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameUIView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/GameUIView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/MainMenuController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/MainMenuController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Enemy Dependency/EnemyController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Enum/GameSpaceType.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Enum/GameSpaceType.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Gameplace Dependency/FoodBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Gameplace Dependency/FoodBehavior.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/BodyPartBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/BodyPartBehavior.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Controllers/InputManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Enum/GameModeType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Enum/GameModeType.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Player Dependency/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/BatteringRamPowerUp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/BatteringRamPowerUp.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/EnginePowerPowerUp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/EnginePowerPowerUp.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/TimeTravelPowerUp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/PowerUp/TimeTravelPowerUp.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/EntityBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/EntityBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/GameSetStatus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_project/Scripts/Utilities/GameSetStatus.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/InputManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/InputManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,10 +94,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="23364">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="23364" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -134,7 +123,7 @@
       <workItem from="1716683914598" duration="9568000" />
       <workItem from="1716695140550" duration="3812000" />
       <workItem from="1716744181652" duration="797000" />
-      <workItem from="1716745546129" duration="30343000" />
+      <workItem from="1716745546129" duration="37463000" />
     </task>
     <servers />
   </component>

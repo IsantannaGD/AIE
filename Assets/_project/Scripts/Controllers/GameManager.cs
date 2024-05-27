@@ -7,9 +7,11 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
+    public static Action<char, char> OnRegisterNewPlayer;
     public static Action<EntityBase> OnRegisterEntity;
     public static Action<EntityBase> OnRemoveEntity;
     public static Action<Vector2> OnRegisterLimits;
+    public static Action OnResetPlayerList;
     public static Action OnGameStart;
     public static Action OnTimeTravelUse;
     public static Action OnTimeTravelPick;
@@ -24,15 +26,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<EntityBase> _allEntitiesInGame = new List<EntityBase>();
     [SerializeField] private List<Vector2> _allWallPositions = new List<Vector2>();
 
-    [FormerlySerializedAs("_gameMode")] [SerializeField] private GameModeType gameModeType;
-
     [SerializeField] private bool _gameOver;
     [SerializeField] private bool _gamePaused;
+    [SerializeField] private bool _gameStarted;
 
     public bool GameOver => _gameOver;
     public bool GamePaused => _gamePaused;
+    public bool GameStarted => _gameStarted;
     public List<Vector2> AllWallPositions => _allWallPositions;
-    public GameModeType CurrentGameModeType => gameModeType;
 
     public bool CheckPositionViability(Vector2 pos)
     {
@@ -45,11 +46,6 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    public void SetGameMode(GameModeType modeType)
-    {
-        gameModeType = modeType;
-    }
-
     private void Awake()
     {
         Instance = this;
@@ -58,11 +54,17 @@ public class GameManager : MonoBehaviour
 
     private void Initializations()
     {
+        OnGameStart += StartGameCallback;
         OnRegisterEntity += RegisterEntityCallback;
         OnRemoveEntity += RemoveEntityFromListCallback;
         OnRegisterLimits += RegisterWall;
 
         //SceneManager.LoadScene("MainMenu");
+    }
+
+    private void StartGameCallback()
+    {
+        _gameStarted = true;
     }
 
     private void RegisterEntityCallback(EntityBase entity)
